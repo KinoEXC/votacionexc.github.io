@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Votación de Compases</title>
+    <style>
+         body {
+            background-image: linear-gradient(rgb(0, 0, 0), rgb(10, 10, 10));
+            color: white;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        table {
+            width: 100%;
+            margin: 0 auto;
+            background-image: linear-gradient(rgb(0, 0, 0), rgb(10, 10, 10));
+            color: white;
+        }
+        table, th, td {
+            border: 1px solid white;
+            border-collapse: collapse;
+            text-align: center;
+            width: 50px; /* Para hacer las casillas cuadradas */
+            height: 50px; /* Para hacer las casillas cuadradas */
+        }
+        th, td {
+            padding: 0;
+        }
+        input[type="number"] {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background-color: transparent;
+            font-size: 20px;
+            text-align: center;
+            color: white;
+        }
+        .voto-3 {
+            color: red !important;
+        }
+        .voto-4 {
+            background-color: gold !important;
+            color: black !important;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Configuración de Competidores</h1>
+        <label for="comp1_name">Nombre del Competidor 1:</label>
+        <input type="text" id="comp1_name">
+        <br>
+        <label for="comp2_name">Nombre del Competidor 2:</label>
+        <input type="text" id="comp2_name">
+        <br>
+        <button onclick="confirmarNombres()">Confirmar Nombres</button>
+
+        <!-- Tablas y otros elementos aquí -->
+
+        <div id="resultados"></div>
+    </div>
+    
+    <div class="container">
+        <h1>Ronda 1: Incremental Mode</h1>
+        <table id="incremental_table">
+            <tr>
+                <th>Competidor 1</th>
+                <th>Competidor 2</th>
+            </tr>
+            <!-- Repite estas filas para cada compás -->
+            <!-- Compás 1 -->
+            <tr>
+                <td><input type="number" class="voto" id="comp1_inc_voto1" min="0" max="4" placeholder="Voto"></td>
+                <td><input type="number" class="voto" id="comp2_inc_voto1" min="0" max="4" placeholder="Voto"></td>
+            </tr>
+            <!-- Compás 2 -->
+            <tr>
+                <td><input type="number" class="voto" id="comp1_inc_voto2" min="0" max="4" placeholder="Voto"></td>
+                <td><input type="number" class="voto" id="comp2_inc_voto2" min="0" max="4" placeholder="Voto"></td>
+            </tr>
+            <!-- Compás 3 -->
+            <tr>
+                <td><input type="number" class="voto" id="comp1_inc_voto3" min="0" max="4" placeholder="Voto"></td>
+                <td><input type="number" class="voto" id="comp2_inc_voto3" min="0" max="4" placeholder="Voto"></td>
+            </tr>
+            <!-- Compás 4 -->
+            <tr>
+                <td><input type="number" class="voto" id="comp1_inc_voto4" min="0" max="4" placeholder="Voto"></td>
+                <td><input type="number" class="voto" id="comp2_inc_voto4" min="0" max="4" placeholder="Voto"></td>
+            </tr>
+            <!-- Compás 5 -->
+            <tr>
+                <td><input type="number" class="voto" id="comp1_inc_voto5" min="0" max="4" placeholder="Voto"></td>
+                <td><input type="number" class="voto" id="comp2_inc_voto5" min="0" max="4" placeholder="Voto"></td>
+            </tr>
+            <!-- Compás 6 -->
+            <tr>
+                <td><input type="number" class="voto" id="comp1_inc_voto6" min="0" max="4" placeholder="Voto"></td>
+                <td><input type="number" class="voto" id="comp2_inc_voto6" min="0" max="4" placeholder="Voto"></td>
+            </tr>
+
+            <!-- Skill -->
+
+            <tr>
+                <td><input type="number" class="voto" id="comp1_inc_voto1" min="0" max="4" placeholder="Skill"></td>
+                <td><input type="number" class="voto" id="comp2_inc_voto1" min="0" max="4" placeholder="Skill"></td>
+            </tr>
+            <!-- Flow -->
+            <tr>
+                <td><input type="number" class="voto" id="comp1_inc_voto2" min="0" max="4" placeholder="Flow"></td>
+                <td><input type="number" class="voto" id="comp2_inc_voto2" min="0" max="4" placeholder="Flow"></td>
+            </tr>
+            <!-- PE -->
+            <tr>
+                <td><input type="number" class="voto" id="comp1_inc_voto3" min="0" max="4" placeholder="PE"></td>
+                <td><input type="number" class="voto" id="comp2_inc_voto3" min="0" max="4" placeholder="PE"></td>
+            </tr>
+        </table>
+
+        <!-- Añadir otros modos aquí -->
+        <h1>Ronda 2: Kickback</h1>
+        <table id="kickback_table">
+            <tr>
+                <th>Competidor 1</th>
+                <th>Competidor 2</th>
+            </tr>
+            <!-- Repite estas filas para cada compás -->
+            <!-- Compás 1 -->
+            <tr>
+                <td><input type="number" class="voto" id="comp1_kick_voto1" min="0" max="4" placeholder="Voto"></td>
+                <td><input type="number" class="voto" id="comp2_kick_voto1" min="0" max="4" placeholder="Voto"></td>
+            </tr>
+            <!-- Compás 2 -->
+            <tr>
+                <td><input type="number" class="voto" id="comp1_kick_voto2" min="0" max="4" placeholder="Voto"></td>
+                <td><input type="number" class="voto" id="comp2_kick_voto2" min="0" max="4" placeholder="Voto"></td>
+            </tr>
+            <!-- Compás 3 -->
+            <tr>
+                <td><input type="number" class="voto" id="comp1_kick_voto3" min="0" max="4" placeholder="Voto"></td>
+                <td><input type="number" class="voto" id="comp2_kick_voto3" min="0" max="4" placeholder="Voto"></td>
+            </tr>
+            <!-- Compás 4 -->
+            <tr>
+                <td><input type="number" class="voto" id="comp1_kick_voto4" min="0" max="4" placeholder="Voto"></td>
+                <td><input type="number" class="voto" id="comp2_kick_voto4" min="0" max="4" placeholder="Voto"></td>
+            </tr>
+            <!-- Compás 5 -->
+            <tr>
+                <td><input type="number" class="voto" id="comp1_kick_voto5" min="0" max="4" placeholder="Voto"></td>
+                <td><input type="number" class="voto" id="comp2_kick_voto5" min="0" max="4" placeholder="Voto"></td>
+            </tr>
+            <!-- Compás 6 -->
+            <tr>
+                <td><input type="number" class="voto" id="comp1_kick_voto6" min="0" max="4" placeholder="Voto"></td>
+                <td><input type="number" class="voto" id="comp2_kick_voto6" min="0" max="4" placeholder="Voto"></td>
+            </tr>
+
+            <!-- Skill -->
+
+            <tr>
+                <td><input type="number" class="voto" id="comp1_inc_voto1" min="0" max="4" placeholder="Skill"></td>
+                <td><input type="number" class="voto" id="comp2_inc_voto1" min="0" max="4" placeholder="Skill"></td>
+            </tr>
+            <!-- Flow -->
+            <tr>
+                <td><input type="number" class="voto" id="comp1_inc_voto2" min="0" max="4" placeholder="Flow"></td>
+                <td><input type="number" class="voto" id="comp2_inc_voto2" min="0" max="4" placeholder="Flow"></td>
+            </tr>
+            <!-- PE -->
+            <tr>
+                <td><input type="number" class="voto" id="comp1_inc_voto3" min="0" max="4" placeholder="PE"></td>
+                <td><input type="number" class="voto" id="comp2_inc_voto3" min="0" max="4" placeholder="PE"></td>
+            </tr>
+        </table>
+
+        <!-- Random Mode -->
+        <h1>Ronda 3: Random Mode</h1>
+        <table id="random_table">
+            <tr>
+                <th>Competidor 1</th>
+                <th>Competidor 2</th>
+            </tr>
+            <!-- Repite estas filas para cada compás -->
+            <!-- Compás 1 -->
+            <tr>
+                <td><input type="number" class="voto" id="comp1_random_voto1" min="0" max="4" placeholder="Voto"></td>
+                <td><input type="number" class="voto" id="comp2_random_voto1" min="0" max="4" placeholder="Voto"></td>
+            </tr>
+            <!-- Compás 2 -->
+            <tr>
+                <td><input type="number" class="voto" id="comp1_random_voto2" min="0" max="4" placeholder="Voto"></td>
+                <td><input type="number" class="voto" id="comp2_random_voto2" min="0" max="4" placeholder="Voto"></td>
+            </tr>
+            <!-- Compás 3 -->
+            <tr>
+                <td><input type="number" class="voto" id="comp1_random_voto3" min="0" max="4" placeholder="Voto"></td>
+                <td><input type="number" class="voto" id="comp2_random_voto3" min="0" max="4" placeholder="Voto"></td>
+            </tr>
+            <!-- Compás 4 -->
+            <tr>
+                <td><input type="number" class="voto" id="comp1_random_voto4" min="0" max="4" placeholder="Voto"></td>
+                <td><input type="number" class="voto" id="comp2_random_voto4" min="0" max="4" placeholder="Voto"></td>
+            </tr>
+            <!-- Compás 5 -->
+            <tr>
+                <td><input type="number" class="voto" id="comp1_random_voto5" min="0" max="4" placeholder="Voto"></td>
+                <td><input type="number" class="voto" id="comp2_random_voto5" min="0" max="4" placeholder="Voto"></td>
+            </tr>
+            <!-- Compás 6 -->
+            <tr>
+                <td><input type="number" class="voto" id="comp1_random_voto6" min="0" max="4" placeholder="Voto"></td>
+                <td><input type="number" class="voto" id="comp2_random_voto6" min="0" max="4" placeholder="Voto"></td>
+            </tr>
+
+            <!-- Skill -->
+
+            <tr>
+                <td><input type="number" class="voto" id="comp1_inc_voto1" min="0" max="4" placeholder="Skill"></td>
+                <td><input type="number" class="voto" id="comp2_inc_voto1" min="0" max="4" placeholder="Skill"></td>
+            </tr>
+            <!-- Flow -->
+            <tr>
+                <td><input type="number" class="voto" id="comp1_inc_voto2" min="0" max="4" placeholder="Flow"></td>
+                <td><input type="number" class="voto" id="comp2_inc_voto2" min="0" max="4" placeholder="Flow"></td>
+            </tr>
+            <!-- PE -->
+            <tr>
+                <td><input type="number" class="voto" id="comp1_inc_voto3" min="0" max="4" placeholder="PE"></td>
+                <td><input type="number" class="voto" id="comp2_inc_voto3" min="0" max="4" placeholder="PE"></td>
+            </tr>
+        </table>
+
+        <!-- Minutos Ida -->
+        <h1>Ronda 4: Minutos Ida</h1>
+        <table id="minutos_ida_table">
+            <tr>
+                <th>Competidor 1</th>
+                <th>Competidor 2</th>
+            </tr>
+            <!-- Repite estas filas para cada compás -->
+            <!-- Compás 1 -->
+            <tr>
+                <td><input type="number" class="voto" id="comp1_ida_voto1" min="0" max="4" placeholder="Voto"></td>
+                <td><input type="number" class="voto" id="comp2_ida_voto1" min="0" max="4" placeholder="Voto"></td>
+            </tr>
+            <!-- Compás 2 -->
+            <tr>
+                <td><input type="number" class="voto" id="comp1_ida_voto2" min="0" max="4" placeholder="Voto"></td>
+                <td><input type="number" class="voto" id="comp2_ida_voto2" min="0" max="4" placeholder="Voto"></td>
+            </tr>
+            <!-- Compás 3 -->
+            <tr>
+                <td><input type="number" class="voto" id="comp1_ida_voto3" min="0" max="4" placeholder="Voto"></td>
+                <td><input type="number" class="voto" id="comp2_ida_voto3" min="0" max="4" placeholder="Voto"></td>
+            </tr>
+            <!-- Compás 4 -->
+            <tr>
+                <td><input type="number" class="voto" id="comp1_ida_voto4" min="0" max="4" placeholder="Voto"></td>
+                <td><input type="number" class="voto" id="comp2_ida_voto4" min="0" max="4" placeholder="Voto"></td>
+            </tr>
+            <!-- Compás 5 -->
+            <tr>
+                <td><input type="number" class="voto" id="comp1_ida_voto5" min="0" max="4" placeholder="Voto"></td>
+                <td><input type="number" class="voto" id="comp2_ida_voto5" min="0" max="4" placeholder="Voto"></td>
+            </tr>
+            <!-- Compás 6 -->
+            <tr>
+                <td><input type="number" class="voto" id="comp1_ida_voto6" min="0" max="4" placeholder="Voto"></td>
+                <td><input type="number" class="voto" id="comp2_ida_voto6" min="0" max="4" placeholder="Voto"></td>
+            </tr>
+
+            <!-- Skill -->
+
+            <tr>
+                <td><input type="number" class="voto" id="comp1_inc_voto1" min="0" max="4" placeholder="Skill"></td>
+                <td><input type="number" class="voto" id="comp2_inc_voto1" min="0" max="4" placeholder="Skill"></td>
+            </tr>
+            <!-- Flow -->
+            <tr>
+                <td><input type="number" class="voto" id="comp1_inc_voto2" min="0" max="4" placeholder="Flow"></td>
+                <td><input type="number" class="voto" id="comp2_inc_voto2" min="0" max="4" placeholder="Flow"></td>
+            </tr>
+            <!-- PE -->
+            <tr>
+                <td><input type="number" class="voto" id="comp1_inc_voto3" min="0" max="4" placeholder="PE"></td>
+                <td><input type="number" class="voto" id="comp2_inc_voto3" min="0" max="4" placeholder="PE"></td>
+            </tr>
+        </table>
+
+        <!-- Minutos Vuelta -->
+        <h1>Ronda 5: Minutos Vuelta</h1>
+        <table id="minutos_vuelta_table">
+            <tr>
+                <th>Competidor 1</th>
+                <th>Competidor 2</th>
+            </tr>
+            <!-- Repite estas filas para cada compás -->
+            <!-- Compás 1 -->
+            <tr>
+                <td><input type="number" class="voto" id="comp1_vuelta_voto1" min="0" max="4" placeholder="Voto"></td>
+                <td><input type="number" class="voto" id="comp2_vuelta_voto1" min="0" max="4" placeholder="Voto"></td>
+            </tr>
+            <!-- Compás 2 -->
+            <tr>
+                <td><input type="number" class="voto" id="comp1_vuelta_voto2" min="0" max="4" placeholder="Voto"></td>
+                <td><input type="number" class="voto" id="comp2_vuelta_voto2" min="0" max="4" placeholder="Voto"></td>
+            </tr>
+            <!-- Compás 3 -->
+            <tr>
+                <td><input type="number" class="voto" id="comp1_vuelta_voto3" min="0" max="4" placeholder="Voto"></td>
+                <td><input type="number" class="voto" id="comp2_vuelta_voto3" min="0" max="4" placeholder="Voto"></td>
+            </tr>
+            <!-- Compás 4 -->
+            <tr>
+                <td><input type="number" class="voto" id="comp1_vuelta_voto4" min="0" max="4" placeholder="Voto"></td>
+                <td><input type="number" class="voto" id="comp2_vuelta_voto4" min="0" max="4" placeholder="Voto"></td>
+            </tr>
+            <!-- Compás 5 -->
+            <tr>
+                <td><input type="number" class="voto" id="comp1_vuelta_voto5" min="0" max="4" placeholder="Voto"></td>
+                <td><input type="number" class="voto" id="comp2_vuelta_voto5" min="0" max="4" placeholder="Voto"></td>
+            </tr>
+            <!-- Compás 6 -->
+            <tr>
+                <td><input type="number" class="voto" id="comp1_vuelta_voto6" min="0" max="4" placeholder="Voto"></td>
+                <td><input type="number" class="voto" id="comp2_vuelta_voto6" min="0" max="4" placeholder="Voto"></td>
+            </tr>
+
+            <!-- Skill -->
+
+            <tr>
+                <td><input type="number" class="voto" id="comp1_inc_voto1" min="0" max="4" placeholder="Skill"></td>
+                <td><input type="number" class="voto" id="comp2_inc_voto1" min="0" max="4" placeholder="Skill"></td>
+            </tr>
+            <!-- Flow -->
+            <tr>
+                <td><input type="number" class="voto" id="comp1_inc_voto2" min="0" max="4" placeholder="Flow"></td>
+                <td><input type="number" class="voto" id="comp2_inc_voto2" min="0" max="4" placeholder="Flow"></td>
+            </tr>
+            <!-- PE -->
+            <tr>
+                <td><input type="number" class="voto" id="comp1_inc_voto3" min="0" max="4" placeholder="PE"></td>
+                <td><input type="number" class="voto" id="comp2_inc_voto3" min="0" max="4" placeholder="PE"></td>
+            </tr>
+        </table>
+
+        <!-- Acapella -->
+        <h1>Ronda 6: Acapella</h1>
+        <table id="acapella_table">
+            <tr>
+                <th>Competidor 1</th>
+                <th>Competidor 2</th>
+            </tr>
+            <!-- Repite estas filas para cada compás -->
+            <!-- Compás 1 -->
+            <tr>
+                <td><input type="number" class="voto" id="comp1_acapella_voto1" min="0" max="4" placeholder="Voto"></td>
+                <td><input type="number" class="voto" id="comp2_acapella_voto1" min="0" max="4" placeholder="Voto"></td>
+            </tr>
+            <!-- Compás 2 -->
+            <tr>
+                <td><input type="number" class="voto" id="comp1_acapella_voto2" min="0" max="4" placeholder="Voto"></td>
+                <td><input type="number" class="voto" id="comp2_acapella_voto2" min="0" max="4" placeholder="Voto"></td>
+            </tr>
+        </table>
+
+        <!-- 4x4 -->
+        <h1>Ronda 7: 4x4</h1>
+        
+        <table id="four_by_four_table">
+            <tr>
+                <th>Competidor 1</th>
+                <th>Competidor 2</th>
+            </tr>
+            
+            <!-- Repite estas filas para cada compás -->
+            <!-- Compás 1 -->
+            <tr>
+                <td><input type="number" class="voto" id="comp1_4x4_voto1" min="0" max="4" placeholder="Voto"></td>
+                <td><input type="number" class="voto" id="comp2_4x4_voto1" min="0" max="4" placeholder="Voto"></td>
+            </tr>
+            <!-- Compás 2 -->
+            <tr>
+                <td><input type="number" class="voto" id="comp1_4x4_voto2" min="0" max="4" placeholder="Voto"></td>
+                <td><input type="number" class="voto" id="comp2_4x4_voto2" min="0" max="4" placeholder="Voto"></td>
+            </tr>
+            <!-- Compás 3 -->
+            <tr>
+                <td><input type="number" class="voto" id="comp1_4x4_voto3" min="0" max="4" placeholder="Voto"></td>
+                <td><input type="number" class="voto" id="comp2_4x4_voto3" min="0" max="4" placeholder="Voto"></td>
+            </tr>
+            <!-- Compás 4 -->
+            <tr>
+                <td><input type="number" class="voto" id="comp1_4x4_voto4" min="0" max="4" placeholder="Voto"></td>
+                <td><input type="number" class="voto" id="comp2_4x4_voto4" min="0" max="4" placeholder="Voto"></td>
+            </tr>
+            <!-- Compás 5 -->
+            <tr>
+                <td><input type="number" class="voto" id="comp1_4x4_voto5" min="0" max="4" placeholder="Voto"></td>
+                <td><input type="number" class="voto" id="comp2_4x4_voto5" min="0" max="4" placeholder="Voto"></td>
+            </tr>
+            <!-- Compás 6 -->
+            <tr>
+                <td><input type="number" class="voto" id="comp1_4x4_voto6" min="0" max="4" placeholder="Voto"></td>
+                <td><input type="number" class="voto" id="comp2_4x4_voto6" min="0" max="4" placeholder="Voto"></td>
+            </tr>
+            <!-- Skill -->
+
+            <tr>
+                <td><input type="number" class="voto" id="comp1_inc_voto1" min="0" max="4" placeholder="Skill"></td>
+                <td><input type="number" class="voto" id="comp2_inc_voto1" min="0" max="4" placeholder="Skill"></td>
+            </tr>
+            <!-- Flow -->
+            <tr>
+                <td><input type="number" class="voto" id="comp1_inc_voto2" min="0" max="4" placeholder="Flow"></td>
+                <td><input type="number" class="voto" id="comp2_inc_voto2" min="0" max="4" placeholder="Flow"></td>
+            </tr>
+            <!-- PE -->
+            <tr>
+                <td><input type="number" class="voto" id="comp1_inc_voto3" min="0" max="4" placeholder="PE"></td>
+                <td><input type="number" class="voto" id="comp2_inc_voto3" min="0" max="4" placeholder="PE"></td>
+            </tr>
+        </table>
+
+        <button onclick="mostrarResultados()">Mostrar Resultados</button>
+        <div id="resultados"></div>
+    </div>
+
+    <script>
+
+function confirmarNombres() {
+            const comp1Name = document.getElementById("comp1_name").value;
+            const comp2Name = document.getElementById("comp2_name").value;
+
+            // Actualizar nombres en las tablas
+            const competidor1Headers = document.querySelectorAll('#incremental_table th, #kickback_table th, #random_table th, #minutos_ida_table th, #minutos_vuelta_table th, #acapella_table th, #four_by_four_table th');
+            competidor1Headers.forEach(header => {
+                header.textContent = comp1Name;
+            });
+
+            const competidor2Headers = document.querySelectorAll('#incremental_table th:nth-child(2), #kickback_table th:nth-child(2), #random_table th:nth-child(2), #minutos_ida_table th:nth-child(2), #minutos_vuelta_table th:nth-child(2), #acapella_table th:nth-child(2), #four_by_four_table th:nth-child(2)');
+            competidor2Headers.forEach(header => {
+                header.textContent = comp2Name;
+            });
+
+            // Mostrar los nombres en los resultados
+            document.getElementById("resultados").innerHTML = `
+                <h2>Nombres de Competidores Confirmados</h2>
+                <p>Competidor 1: ${comp1Name}</p>
+                <p>Competidor 2: ${comp2Name}</p>
+            `;
+        }
+        
+        document.querySelectorAll('.voto').forEach(input => {
+            input.addEventListener('input', function() {
+                const value = parseInt(this.value);
+                if (value === 3) {
+                    this.classList.remove('voto-4');
+                    this.classList.add('voto-3');
+                } else if (value === 4) {
+                    this.classList.remove('voto-3');
+                    this.classList.add('voto-4');
+                } else {
+                    this.classList.remove('voto-3');
+                    this.classList.remove('voto-4');
+                }
+                if (value > 4) {
+                    this.value = 4;
+                }
+            });
+        });
+
+        function mostrarResultados() {
+            // Obtener los valores de los votos para Incremental Mode
+            const comp1_inc_votos = [];
+            const comp2_inc_votos = [];
+            for (let i = 1; i <= 6; i++) {
+                comp1_inc_votos.push(parseFloat(document.getElementById(`comp1_inc_voto${i}`).value) || 0);
+                comp2_inc_votos.push(parseFloat(document.getElementById(`comp2_inc_voto${i}`).value) || 0);
+            }
+
+            // Obtener los valores de los votos para Kickback
+            const comp1_kick_votos = [];
+            const comp2_kick_votos = [];
+            for (let i = 1; i <= 6; i++) {
+                comp1_kick_votos.push(parseFloat(document.getElementById(`comp1_kick_voto${i}`).value) || 0);
+                comp2_kick_votos.push(parseFloat(document.getElementById(`comp2_kick_voto${i}`).value) || 0);
+            }
+
+            // Calcular la suma total de votos para cada competidor
+            const total_comp1 = comp1_inc_votos.reduce((acc, curr) => acc + curr, 0) + comp1_kick_votos.reduce((acc, curr) => acc + curr, 0);
+            const total_comp2 = comp2_inc_votos.reduce((acc, curr) => acc + curr, 0) + comp2_kick_votos.reduce((acc, curr) => acc + curr, 0);
+
+            // Mostrar los resultados
+            const resultadosDiv = document.getElementById("resultados");
+            resultadosDiv.innerHTML = `
+                <h2>Resultados Totales</h2>
+                <p>Total de votos para Competidor 1: ${total_comp1}</p>
+                <p>Total de votos para Competidor 2: ${total_comp2}</p>
+                <h3>Ganador: ${total_comp1 > total_comp2 ? "Competidor 1" : "Competidor 2"}</h3>
+            `;
+        }
+    </script>
+</body>
+</html>
